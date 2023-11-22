@@ -91,6 +91,7 @@ static const char *saveselss[] = {"/home/reiter/scripts/screenshots/saveselectsc
 static const char *copyfulss[] = {"/home/reiter/scripts/screenshots/copyfullscreenshot.sh", NULL};
 static const char *savefulss[] = {"/home/reiter/scripts/screenshots/savefullscreenshot.sh", NULL};
 //shortcuts
+static const char *explorercmd[] = {"pcmanfm", NULL};
 static const char *browsercmd[] = { "firefox", NULL};
 static const char *spotifycmd[] = {"spotify", NULL};
 static const char *discordcmd[] = {"discord", NULL};
@@ -99,6 +100,7 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_r,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = termcmd } },
+    { MODKEY,                       XK_e,      spawn,          {.v = explorercmd} },
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = browsercmd} },
     { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = spotifycmd} },
     { MODKEY|ShiftMask,             XK_d,      spawn,          {.v = discordcmd} },
