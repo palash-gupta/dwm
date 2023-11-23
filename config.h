@@ -83,8 +83,8 @@ static const char *mutecmd[] = { "pactl", "set-sink-mute", "0", "toggle", NULL }
 static const char *volupcmd[] = { "pactl", "set-sink-volume", "0", "+5%", NULL };
 static const char *voldowncmd[] = { "pactl", "set-sink-volume", "0", "-5%", NULL };
 //backlight control commands
-static const char *brupcmd[] = { "sudo", "xbacklight", "-inc", "10", NULL };
-static const char *brdowncmd[] = { "sudo", "xbacklight", "-dec", "10", NULL };
+static const char *brupcmd[] = { "sudo", "xbacklight", "-perceived", "-inc", "5", NULL };
+static const char *brdowncmd[] = { "sudo", "xbacklight", "-perceived", "-dec", "5", NULL };
 //screenshot commands
 static const char *copyselss[] = {"/home/reiter/scripts/screenshots/copyselectscreenshot.sh", NULL};
 static const char *saveselss[] = {"/home/reiter/scripts/screenshots/saveselectscreenshot.sh", NULL};
