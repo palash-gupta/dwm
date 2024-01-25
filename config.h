@@ -4,24 +4,21 @@
 /* appearance */
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const int swallowfloating    = 1;        /* 1 means swallow floating windows by default */
-static const unsigned int cornerrad = 6;
 static const unsigned int gappih    = 4;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 4;       /* vert inner gap between windows */
 static const unsigned int gappoh    = 4;       /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov    = 4;       /* vert outer gap between windows and screen edge */
-static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */   
+static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
+static const int swallowfloating    = 1;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-#define ICONSIZE 20  /* icon size */
-#define ICONSPACING 8 /* space between icon and titile */
 static const char *fonts[]          = {
     "CaskaydiaCoveNerdFont:size=14",
     "AppleColorEmoji:size=14",
     "NotoColorEmoji:size=14"
 };
 static const char dmenufont[]       = "CaskaydiaCoveNerdFont:size=14";
-static unsigned int baralpha        = 0x90;
+static unsigned int baralpha        = 0xd0;
 static unsigned int borderalpha     = OPAQUE;
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -39,9 +36,24 @@ static const char *colors[][3]      = {
 	[SchemeInfoNorm]  = { "#B5BFE2", "#51576D",  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
+const char *spcmd3[] = {"gnome-calculator", NULL };
+const char *spcmd4[] = {"st", "-n", "spdmenu", "-g", "120x34", "-e", "/home/reiter/scripts/dmenu/shellcmd.sh", NULL };
+static Sp scratchpads[] = {
+	/* name          cmd  */
+	{"spterm",      spcmd1},
+	{"spranger",    spcmd2},
+	{"gnome-calculator",   spcmd3},
+    {"spdmenu", spcmd4},
+};
 
 /* tagging */
-static const char *tags[] = { "󰣇", "2", "3", "4", "5", "6", "7", "󰓇", "󰙯" };
+static const char *tags[] = { "󰣇", "󰈹", "3", "4", "5", "6", "7", "󰓇", "󰙯" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -52,6 +64,13 @@ static const Rule rules[] = {
 	{ "Spotify", NULL,     NULL,           1 << 7,    0,          0,           0,        -1 },
 	{ "discord", NULL,     NULL,           1 << 8,    0,          0,           0,        -1 },
 	{ "kitty",   NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ "st-256color",NULL,  NULL,           0,         0,          1,           0,        -1 },
+	{ "spfm",    NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ "ranger",  NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ NULL,	  "spterm",	   NULL,		SPTAG(0),     1,	      1,           0,		 -1 },
+	{ NULL,	  "spfm",	   NULL,		SPTAG(1),	  1,	      1,	       0,        -1 },
+	{ "gnome-calculator", NULL, NULL,	SPTAG(2),	  1,	      0,           0,        -1 },
+	{ NULL,     "spdmenu", NULL,	    SPTAG(3),	  1,	      1,           0,        -1 },
 	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
 
@@ -82,8 +101,8 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon}; //, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "kitty", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL}; //, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *termcmd[]  = { "st", NULL };
 // audio control commands
 static const char *mutecmd[] = { "/home/reiter/scripts/control/volumeControl.sh", "mute", NULL };
 static const char *volupcmd[] = { "/home/reiter/scripts/control/volumeControl.sh", "up", NULL };
@@ -101,29 +120,28 @@ static const char *copyfulss[] = {"/home/reiter/scripts/screenshots/copyfullscre
 static const char *savefulss[] = {"/home/reiter/scripts/screenshots/savefullscreenshot.sh", NULL};
 //shortcuts
 static const char *explorercmd[] = {"pcmanfm", NULL};
-static const char *browsercmd[] = { "firefox", NULL};
-static const char *spotifycmd[] = {"spotify", NULL};
-static const char *discordcmd[] = {"discord", NULL};
+static const char *browsercmd[] = {"librewolf", NULL};
+//emoji
+static const char *emotecmd[] = {"/home/reiter/scripts/dmenu/emote.sh", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_r,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = termcmd } },
-    { MODKEY,                       XK_e,      spawn,          {.v = explorercmd} },
-    { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = browsercmd} },
-    { MODKEY|ShiftMask,             XK_m,      spawn,          {.v = spotifycmd} },
-    { MODKEY|ShiftMask,             XK_d,      spawn,          {.v = discordcmd} },
+//  { MODKEY,                       XK_e,      spawn,          {.v = explorercmd} },
+    { MODKEY,                       XK_b,      spawn,          {.v = browsercmd} },
     { MODKEY,                       XK_s,      spawn,          {.v = saveselss} },
     { MODKEY|ShiftMask,             XK_s,      spawn,          {.v = copyselss} },
     { 0,                            XK_Print,  spawn,          {.v = copyfulss} },
     { ShiftMask,                    XK_Print,  spawn,          {.v = savefulss} },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_k,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_j,      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_semicolon,spawn,        {.v = emotecmd } },
+	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
+	{ MODKEY|ShiftMask,             XK_h,      incnmaster,     {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_l,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
-	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
+	{ MODKEY,                       XK_k,      setcfact,       {.f = +0.25} },
+	{ MODKEY,                       XK_j,      setcfact,       {.f = -0.25} },
 	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
     { MODKEY,                       XK_Return, zoom,           {0} },
 	{ ALTKEY,                       XK_Tab,    focusstack,     {.i = +1 } },
@@ -132,18 +150,24 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
+//	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglesticky,   {0} },
-    { MODKEY,                       XK_c,      togglefloating, {0} },
-    { MODKEY,                       XK_p,      togglealwaysontop, {0} },
+    { MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
+    { MODKEY|ShiftMask,             XK_m,      togglealwaysontop, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
     { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask|ControlMask, XK_comma,  focusmon,       {.i = -1 } },
+	{ MODKEY|ShiftMask|ControlMask, XK_period, focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask|ControlMask, XK_comma,  tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask|ControlMask, XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,            			XK_c,	   togglescratch,  {.ui = 0 } },
+	{ MODKEY,            			XK_e,	   togglescratch,  {.ui = 1 } },
+	{ 0,                 		 XK_KP_Insert, togglescratch,  {.ui = 2 } },
+	{ MODKEY,            			XK_r,	   togglescratch,  {.ui = 3 } },
     { MODKEY|Mod1Mask,              XK_h,      incrgaps,       {.i = +1 } },
 	{ MODKEY|Mod1Mask,              XK_l,      incrgaps,       {.i = -1 } },
 	{ MODKEY|Mod1Mask|ShiftMask,    XK_h,      incrogaps,      {.i = +1 } },
