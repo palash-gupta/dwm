@@ -119,10 +119,13 @@ static const char *saveselss[] = {"/home/reiter/scripts/screenshots/saveselectsc
 static const char *copyfulss[] = {"/home/reiter/scripts/screenshots/copyfullscreenshot.sh", NULL};
 static const char *savefulss[] = {"/home/reiter/scripts/screenshots/savefullscreenshot.sh", NULL};
 //shortcuts
-static const char *explorercmd[] = {"pcmanfm", NULL};
+//static const char *explorercmd[] = {"pcmanfm", NULL};
 static const char *browsercmd[] = {"librewolf", NULL};
 //emoji
 static const char *emotecmd[] = {"/home/reiter/scripts/dmenu/emote.sh", NULL};
+//server
+static const char *servcmd[] = {"/home/reiter/scripts/server/connectivity.sh", NULL};
+static const char *servkillcmd[] = {"/home/reiter/scripts/server/kill.sh", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -135,6 +138,8 @@ static const Key keys[] = {
     { 0,                            XK_Print,  spawn,          {.v = copyfulss} },
     { ShiftMask,                    XK_Print,  spawn,          {.v = savefulss} },
 	{ MODKEY,                       XK_semicolon,spawn,        {.v = emotecmd } },
+	{ 0,                 		   XK_KP_Begin,spawn,          {.v = servcmd } },
+	{ ShiftMask,         		   XK_KP_Begin,spawn,          {.v = servkillcmd } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_h,      incnmaster,     {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_l,      incnmaster,     {.i = -1 } },
