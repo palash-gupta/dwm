@@ -2,7 +2,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 0;        /* border pixel of windows */
+static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappih    = 4;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 4;       /* vert inner gap between windows */
@@ -24,7 +24,7 @@ static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#a423fa";
+static const char col_cyan[]        = "#B5BFE2";
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
     [SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -120,7 +120,7 @@ static const char *saveselss[] = {"/home/reiter/scripts/screenshots/saveselectsc
 static const char *copyfulss[] = {"/home/reiter/scripts/screenshots/copyfullscreenshot.sh", NULL};
 static const char *savefulss[] = {"/home/reiter/scripts/screenshots/savefullscreenshot.sh", NULL};
 //shortcuts
-//static const char *explorercmd[] = {"pcmanfm", NULL};
+static const char *explorercmd[] = {"st", "-e", "ranger", NULL };
 static const char *browsercmdcollege[] = {"/home/reiter/scripts/launch/browser-college.sh", NULL};
 static const char *browsercmdpersonal[] = {"/home/reiter/scripts/launch/browser-personal.sh", NULL};
 //emoji
@@ -137,7 +137,7 @@ static Keychord *keychords[] = {
     &((Keychord){    2,  {{MODKEY|ShiftMask,XK_q},{MODKEY|ShiftMask,XK_q}},          quit,               {0}   }),                            
     &((Keychord){    1,  {{MODKEY,XK_p}},                                            spawn,              {.v   =    dmenucmd             }    }),
     &((Keychord){    1,  {{MODKEY,XK_x}},                                            spawn,              {.v   =    termcmd              }    }),
-    //&((Keychord){  1,  {{MODKEY,XK_e}},                                            spawn,              {.v   =    explorercmd}         }),  
+    &((Keychord){    1,  {{MODKEY|ShiftMask,XK_e}},                                  spawn,              {.v   =    explorercmd}         }),  
     &((Keychord){    2,  {{MODKEY,XK_b}, {MODKEY,XK_b}},                             spawn,              {.v   =    browsercmdpersonal}  }),  
     &((Keychord){    2,  {{MODKEY,XK_b}, {MODKEY,XK_w}},                             spawn,              {.v   =    browsercmdcollege}   }),  
     &((Keychord){    2,  {{MODKEY,XK_s},{MODKEY,XK_s}},                              spawn,              {.v   =    copyfulss}           }),  
