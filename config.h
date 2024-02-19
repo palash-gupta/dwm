@@ -2,7 +2,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 3;        /* border pixel of windows */
+static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappih    = 4;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 4;       /* vert inner gap between windows */
@@ -13,9 +13,9 @@ static const int swallowfloating    = 1;        /* 1 means swallow floating wind
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = {
-    "CaskaydiaCoveNerdFont:size=14",
-    "AppleColorEmoji:size=14",
-    "NotoColorEmoji:size=14"
+    "CaskaydiaCoveNerdFont:size=12",
+    "AppleColorEmoji:size=12",
+    "NotoColorEmoji:size=12"
 };
 static const char dmenufont[]       = "CaskaydiaCoveNerdFont:size=14";
 static unsigned int baralpha        = 0xd0;
@@ -131,10 +131,15 @@ static const char *servkillcmd[] = {"/home/reiter/scripts/server/kill.sh", NULL}
 static const char *servopencmd[] = {"/home/reiter/scripts/server/openfrontend.sh", NULL};
 //wifi
 static const char *wificmd[] = {"/home/reiter/scripts/wifi/wificonnect.sh", NULL};
+//lockscreen
+static const char *lockcmd[] = {"/home/reiter/scripts/status/lockscreen.sh", NULL};
+
 
 static Keychord *keychords[] = {
     /*           KC Length             Keychord                                     function              argument */
     &((Keychord){    2,  {{MODKEY|ShiftMask,XK_q},{MODKEY|ShiftMask,XK_q}},          quit,               {0}   }),                            
+    &((Keychord){    2,  {{MODKEY|ShiftMask,XK_q},{MODKEY|ShiftMask,XK_l}},          spawn,              {.v   =    lockcmd} }),                            
+	&((Keychord){    1,  {{MODKEY,XK_Tab}},                                          view,               {0}    }),
     &((Keychord){    1,  {{MODKEY,XK_p}},                                            spawn,              {.v   =    dmenucmd             }    }),
     &((Keychord){    1,  {{MODKEY,XK_x}},                                            spawn,              {.v   =    termcmd              }    }),
     &((Keychord){    1,  {{MODKEY|ShiftMask,XK_e}},                                  spawn,              {.v   =    explorercmd}         }),  
