@@ -111,6 +111,8 @@ static const char *voldowncmd[] = { "/home/reiter/scripts/control/volumeControl.
 static const char *playpausecmd[] = { "playerctl", "play-pause", NULL };
 static const char *playnextcmd[] = { "playerctl", "next", NULL };
 static const char *playprevcmd[] = { "playerctl", "previous", NULL };
+static const char *playffdcmd[] = { "playerctl", "position", "5+", NULL };
+static const char *playbbdcmd[] = { "playerctl", "position", "5-", NULL };
 //backlight control commands
 static const char *brupcmd[] = { "/home/reiter/scripts/control/brightnessControl.sh", "up", NULL };
 static const char *brdowncmd[] = { "/home/reiter/scripts/control/brightnessControl.sh", "down", NULL };
@@ -133,6 +135,10 @@ static const char *servopencmd[] = {"/home/reiter/scripts/server/openfrontend.sh
 static const char *wificmd[] = {"/home/reiter/scripts/wifi/wificonnect.sh", NULL};
 //lockscreen
 static const char *lockcmd[] = {"/home/reiter/scripts/status/lockscreen.sh", NULL};
+//bluetooth
+static const char *airdopes_connect_cmd[] = {"/home/reiter/scripts/bluetooth/airdopes.sh", NULL};
+static const char *airdopes_disconnect_cmd[] = {"/home/reiter/scripts/bluetooth/airdopes_disconnect.sh", NULL};
+static const char *bluetooth_audio_sink_reset[] = {"/home/reiter/scripts/bluetooth/reset.sh", NULL};
 
 
 static Keychord *keychords[] = {
@@ -154,6 +160,9 @@ static Keychord *keychords[] = {
     &((Keychord){    1,  {{MODKEY|ShiftMask,XK_KP_Begin}},                           spawn,              {.v   =    servkillcmd          }    }),
     &((Keychord){    1,  {{MODKEY|ControlMask,XK_KP_Begin}},                         spawn,              {.v   =    servopencmd          }    }),
     &((Keychord){    1,  {{0,XK_KP_Delete}},                                         spawn,              {.v   =    wificmd              }    }),
+    &((Keychord){    2,  {{MODKEY,XK_a}, {MODKEY,XK_c}},                             spawn,              {.v   =    airdopes_connect_cmd}  }),  
+    &((Keychord){    2,  {{MODKEY,XK_a}, {MODKEY,XK_d}},                             spawn,              {.v   =    airdopes_disconnect_cmd}  }),  
+    &((Keychord){    2,  {{MODKEY,XK_a}, {MODKEY,XK_r}},                             spawn,              {.v   =    bluetooth_audio_sink_reset}  }),  
     &((Keychord){    1,  {{MODKEY|ShiftMask,XK_b}},                                  togglebar,          {0}   }),                            
     &((Keychord){    1,  {{MODKEY|ShiftMask,XK_h}},                                  incnmaster,         {.i   =    +1                   }    }),
     &((Keychord){    1,  {{MODKEY|ShiftMask,XK_l}},                                  incnmaster,         {.i   =    -1                   }    }),
@@ -209,6 +218,8 @@ static Keychord *keychords[] = {
     &((Keychord){    1,  {{0,XF86XK_AudioPlay}},                                     spawn,              {.v   =    playpausecmd         }    }),
     &((Keychord){    1,  {{0,XF86XK_AudioNext}},                                     spawn,              {.v   =    playnextcmd          }    }),
     &((Keychord){    1,  {{0,XF86XK_AudioPrev}},                                     spawn,              {.v   =    playprevcmd          }    }),
+    &((Keychord){    1,  {{ShiftMask,XF86XK_AudioNext}},                             spawn,              {.v   =    playffdcmd          }    }),
+    &((Keychord){    1,  {{ShiftMask,XF86XK_AudioPrev}},                             spawn,              {.v   =    playbbdcmd          }    }),
     &((Keychord){    1,  {{0,XF86XK_MonBrightnessUp}},                               spawn,              {.v   =    brupcmd}             }),  
     &((Keychord){    1,  {{0,XF86XK_MonBrightnessDown}},                             spawn,              {.v   =    brdowncmd}           }),  
 
