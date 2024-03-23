@@ -44,16 +44,18 @@ const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
 const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
 const char *spcmd3[] = {"gnome-calculator", NULL };
 const char *spcmd4[] = {"st", "-n", "spdmenu", "-g", "120x34", "-e", "/home/reiter/scripts/dmenu/shellcmd.sh", NULL };
+const char *spcmd5[] = {"/home/reiter/scripts/emacs/emacs_scratchpad.sh", NULL };
 static Sp scratchpads[] = {
     /* name          cmd  */
     {"spterm",      spcmd1},
     {"spranger",    spcmd2},
     {"gnome-calculator",   spcmd3},
     {"spdmenu", spcmd4},
+    {"spemacs", spcmd5},
 };
 
 /* tagging */
-static const char *tags[] = { "󰣇", "󰈹", "3", "4", "5", "6", "7", "󰓇", "󰙯" };
+static const char *tags[] = { "󰣇", "󰖟", "3", "4", "5", "6", "7", "󰓇", "󰙯" };
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -72,6 +74,7 @@ static const Rule rules[] = {
     { NULL,	  "spfm",	   NULL,		SPTAG(1),	  1,	      1,	       0,        -1 },
     { "gnome-calculator", NULL, NULL,	SPTAG(2),	  1,	      0,           0,        -1 },
     { NULL,     "spdmenu", NULL,	    SPTAG(3),	  1,	      1,           0,        -1 },
+    { NULL,      NULL,	"spemacs",      SPTAG(4),	  1,	      0,           0,        -1 },
     { NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
 
@@ -108,9 +111,9 @@ static const char *termcmd[]  = { "st", NULL };
 static const char *mutecmd[] = { "/home/reiter/scripts/control/volumeControl.sh", "mute", NULL };
 static const char *volupcmd[] = { "/home/reiter/scripts/control/volumeControl.sh", "up", NULL };
 static const char *voldowncmd[] = { "/home/reiter/scripts/control/volumeControl.sh", "down", NULL };
-static const char *playpausecmd[] = { "playerctl", "play-pause", NULL };
-static const char *playnextcmd[] = { "playerctl", "next", NULL };
-static const char *playprevcmd[] = { "playerctl", "previous", NULL };
+static const char *playpausecmd[] = { "/home/reiter/scripts/control/playerControl.sh", "play-pause", NULL };
+static const char *playnextcmd[] = { "/home/reiter/scripts/control/playerControl.sh", "next", NULL };
+static const char *playprevcmd[] = { "/home/reiter/scripts/control/playerControl.sh", "previous", NULL };
 static const char *playffdcmd[] = { "playerctl", "position", "5+", NULL };
 static const char *playbbdcmd[] = { "playerctl", "position", "5-", NULL };
 //backlight control commands
@@ -139,6 +142,8 @@ static const char *lockcmd[] = {"/home/reiter/scripts/status/lockscreen.sh", NUL
 static const char *airdopes_connect_cmd[] = {"/home/reiter/scripts/bluetooth/airdopes.sh", NULL};
 static const char *airdopes_disconnect_cmd[] = {"/home/reiter/scripts/bluetooth/airdopes_disconnect.sh", NULL};
 static const char *bluetooth_audio_sink_reset[] = {"/home/reiter/scripts/bluetooth/reset.sh", NULL};
+//emacs
+static const char *emacslaunch[] = {"emacsclient", "-c", "-a", "emacs", NULL};
 
 
 static Keychord *keychords[] = {
@@ -162,7 +167,8 @@ static Keychord *keychords[] = {
     &((Keychord){    1,  {{0,XK_KP_Delete}},                                         spawn,              {.v   =    wificmd              }    }),
     &((Keychord){    2,  {{MODKEY,XK_a}, {MODKEY,XK_c}},                             spawn,              {.v   =    airdopes_connect_cmd}  }),  
     &((Keychord){    2,  {{MODKEY,XK_a}, {MODKEY,XK_d}},                             spawn,              {.v   =    airdopes_disconnect_cmd}  }),  
-    &((Keychord){    2,  {{MODKEY,XK_a}, {MODKEY,XK_r}},                             spawn,              {.v   =    bluetooth_audio_sink_reset}  }),  
+    &((Keychord){    2,  {{MODKEY,XK_a}, {MODKEY,XK_r}},                             spawn,              {.v   =    bluetooth_audio_sink_reset}  }),
+    &((Keychord){    2,  {{MODKEY,XK_i}, {MODKEY,XK_i}},                             spawn,              {.v   =    emacslaunch}  }),
     &((Keychord){    1,  {{MODKEY|ShiftMask,XK_b}},                                  togglebar,          {0}   }),                            
     &((Keychord){    1,  {{MODKEY|ShiftMask,XK_h}},                                  incnmaster,         {.i   =    +1                   }    }),
     &((Keychord){    1,  {{MODKEY|ShiftMask,XK_l}},                                  incnmaster,         {.i   =    -1                   }    }),
@@ -196,6 +202,7 @@ static Keychord *keychords[] = {
     &((Keychord){    1,  {{MODKEY,XK_e}},                                            togglescratch,      {.ui  =    1                    }    }),
     &((Keychord){    1,  {{0,XK_KP_Insert}},                                         togglescratch,      {.ui  =    2                    }    }),
     &((Keychord){    1,  {{MODKEY,XK_r}},                                            togglescratch,      {.ui  =    3                    }    }),
+    &((Keychord){    2,  {{MODKEY,XK_i}, {MODKEY,XK_s}},                             togglescratch,      {.ui  =    4                    }    }),
     &((Keychord){    1,  {{MODKEY|Mod1Mask,XK_h}},                                   incrgaps,           {.i   =    +1                   }    }),
     &((Keychord){    1,  {{MODKEY|Mod1Mask,XK_l}},                                   incrgaps,           {.i   =    -1                   }    }),
     &((Keychord){    1,  {{MODKEY|Mod1Mask|ShiftMask,XK_h}},                         incrogaps,          {.i   =    +1                   }    }),
