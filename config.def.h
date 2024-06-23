@@ -55,7 +55,7 @@ static Sp scratchpads[] = {
 };
 
 /* tagging */
-static const char *tags[] = { "󰣇", "󰖟", "3", "4", "5", "6", "7", "󰓇", "󰙯" };
+static const char *tags[] = { "󰣇", "󰖟", "3", "4", "5", "6", "7", "󰓇", "" };
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -128,6 +128,7 @@ static const char *savefulss[] = {"/home/reiter/scripts/screenshots/savefullscre
 static const char *explorercmd[] = {"st", "-e", "ranger", NULL };
 static const char *browsercmdcollege[] = {"/home/reiter/scripts/launch/browser-college.sh", NULL};
 static const char *browsercmdpersonal[] = {"/home/reiter/scripts/launch/browser-personal.sh", NULL};
+static const char *browsercmdincognito[] = {"/home/reiter/scripts/launch/browser-incognito.sh", NULL};
 //emoji
 static const char *emotecmd[] = {"/home/reiter/scripts/dmenu/emote.sh", NULL};
 //server
@@ -136,6 +137,8 @@ static const char *servkillcmd[] = {"/home/reiter/scripts/server/kill.sh", NULL}
 static const char *servopencmd[] = {"/home/reiter/scripts/server/openfrontend.sh", NULL};
 //wifi
 static const char *wificmd[] = {"/home/reiter/scripts/wifi/wificonnect.sh", NULL};
+static const char *vpncmd[] = {"/home/reiter/scripts/wifi/vpn.sh", NULL};
+static const char *vpnexitcmd[] = {"/home/reiter/scripts/wifi/vpn_exit.sh", NULL};
 //lockscreen
 static const char *lockcmd[] = {"/home/reiter/scripts/status/lockscreen.sh", NULL};
 //bluetooth
@@ -156,6 +159,7 @@ static Keychord *keychords[] = {
     &((Keychord){    1,  {{MODKEY|ShiftMask,XK_e}},                                  spawn,              {.v   =    explorercmd}         }),  
     &((Keychord){    2,  {{MODKEY,XK_b}, {MODKEY,XK_b}},                             spawn,              {.v   =    browsercmdpersonal}  }),  
     &((Keychord){    2,  {{MODKEY,XK_b}, {MODKEY,XK_w}},                             spawn,              {.v   =    browsercmdcollege}   }),  
+    &((Keychord){    2,  {{MODKEY,XK_b}, {MODKEY,XK_i}},                             spawn,              {.v   =    browsercmdincognito}   }),  
     &((Keychord){    2,  {{MODKEY,XK_s},{MODKEY,XK_s}},                              spawn,              {.v   =    copyfulss}           }),  
     &((Keychord){    2,  {{MODKEY,XK_s},{MODKEY,XK_a}},                              spawn,              {.v   =    savefulss}           }),  
     &((Keychord){    2,  {{MODKEY|ShiftMask,XK_s},{MODKEY|ShiftMask,XK_s}},          spawn,              {.v   =    copyselss}           }),  
@@ -165,6 +169,8 @@ static Keychord *keychords[] = {
     &((Keychord){    1,  {{MODKEY|ShiftMask,XK_KP_Begin}},                           spawn,              {.v   =    servkillcmd          }    }),
     &((Keychord){    1,  {{MODKEY|ControlMask,XK_KP_Begin}},                         spawn,              {.v   =    servopencmd          }    }),
     &((Keychord){    1,  {{0,XK_KP_Delete}},                                         spawn,              {.v   =    wificmd              }    }),
+    &((Keychord){    1,  {{MODKEY,XK_KP_Delete}},                                    spawn,              {.v   =    vpncmd               }    }),
+    &((Keychord){    1,  {{MODKEY|ShiftMask,XK_KP_Delete}},                          spawn,              {.v   =    vpnexitcmd           }    }),
     &((Keychord){    2,  {{MODKEY,XK_a}, {MODKEY,XK_c}},                             spawn,              {.v   =    airdopes_connect_cmd}  }),  
     &((Keychord){    2,  {{MODKEY,XK_a}, {MODKEY,XK_d}},                             spawn,              {.v   =    airdopes_disconnect_cmd}  }),  
     &((Keychord){    2,  {{MODKEY,XK_a}, {MODKEY,XK_r}},                             spawn,              {.v   =    bluetooth_audio_sink_reset}  }),
